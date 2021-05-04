@@ -36,7 +36,7 @@ def main():
     sad = ["sorry", "beg", "please", "lonely"]
     angry = ["kill", "die", "suffer"]
     # when 'Predict' is clicked, make the prediction and store it 
-    if st.button("Predict"): 
+    if st.button("Classify Emotion"): 
         #result = prediction(text)
         result_dict = te.get_emotion(text)
         result_value = 0
