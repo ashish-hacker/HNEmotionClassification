@@ -2,7 +2,7 @@ import pickle
 import streamlit as st
 #import FindMyMood as f 
 import text2emotion as te
-
+import re
 # loading the trained model
 #pickle_in = open('nlp_model.pkl', 'rb') 
 #classifier = pickle.load(pickle_in)
@@ -31,17 +31,35 @@ def main():
     # following lines create boxes in which user can enter data required to make prediction 
     text = st.text_input("Input your text to classify")
     result =""
-      
+    happy = ["yay","hurray", "love", "celebrate", "party", "enjoyed", "won"]
+    surprise = [ "omg", "wow", "mind-blowing", "fantastic", "awesome"]
+    sad = ["sorry", "beg", "please", "lonely"]
+    angry = ["kill", "die", "suffer"]
     # when 'Predict' is clicked, make the prediction and store it 
     if st.button("Predict"): 
         #result = prediction(text)
         result_dict = te.get_emotion(text)
         result_value = 0
-        for key, value in result_dict.items():
-        	if value > result_value:
-        		result = key
-        if result_value == 0:
-        	result = "Neutral"
+        if text == "":
+        	result = "Enter something in the input bar"
+        elif result == "":
+        	for key, value in result_dict.items():
+        		if value > result_value:
+        			result = key
+        			result_value = value
+        	
+        	if result_value == 0:
+        		for i in text.split(" "):
+        			if i.lower() in happy:
+        				result = "Happy"
+        			elif i.lower() in surprise:
+        				result = "Surprised"
+        			elif i.lower() in sad:
+        				result = "Sad"
+        			elif i.lower() in angry:
+        				result = "Angry"
+        		if result == "":
+        			result = "Neutral"
         st.success('Your emotion is {}'.format(result))
         print(result)
      
